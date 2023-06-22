@@ -2,6 +2,7 @@ from flask import render_template, redirect, request, session, flash
 from flask_app import app
 
 from flask_app.models.user_model import User
+from flask_app.models.recipe_model import Recipe
 
 from flask_bcrypt import Bcrypt  # Only needed on routes related to login/reg
 bcrypt = Bcrypt(app)
@@ -31,6 +32,8 @@ def successful_register():
     pw_hash = bcrypt.generate_password_hash(request.form['password'])
     #! may need to add at end of thread above: ".decode('utf-8')"
     
+
+    #!change the details below*
     newUser_data = {
         "first_name": request.form['first_name'],
         "last_name": request.form['last_name'],
@@ -43,6 +46,26 @@ def successful_register():
     session['user_id'] = user_id
 
     return redirect(f'/success/{user_id}')
+
+
+#route for user to create a new recipe through the "+ CREATE" a-tag button
+@app.route('/createNew', methods=['POST'])
+def add_recipe():
+    print(request.form)
+    Recipe.save(request.form)
+    return redirect(f'/success/{user_id}')
+
+
+# route to have any user view a specific recipe
+@app.route('/viewOne/<int:id>')
+def show_recipe(id):
+    return render_template('viewRecipe.html', recipe = Recipe.get_one_recipe({"id":id}))
+
+
+#route to have a specific user edit a specific recipe
+@app.route('/editOne/<int:id>')
+def edit_recipe(id):
+    return render_template('editRecipe.html', recipe = Recipe.)
 
 
 # ====================================
@@ -86,7 +109,7 @@ def show_success(id):
 
 
 # ====================================
-# Log Out & Cear Route
+# Log Out & Clear Route
 # ====================================
 
 # Route to log out

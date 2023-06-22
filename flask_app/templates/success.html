@@ -21,18 +21,61 @@
 </head>
 
 <body class="bg-dark text-light d-flex justify-content-start container-xxl">
-    <div class="flex-column ">
+    <div class="d-flecx flex-row ">
         <div>
-            <!--! confirm once logged on the user's name is displayed-->
+            <!-- display new user's name in the welcome h2-->
             <h2 class="container-lg mb-5">
-                Welcome {{newUser.first_name}} {{newUser.last_name}}!!! 
+                Welcome, {{newUser.first_name}} {{newUser.last_name}}!!!
             </h2>
         </div>
-            <!--! add correct route for logout button-->
+        <div class="mt-2 d-flex flex-row justify-content-between">
             <div>
-                <a href="/logout" class="btn btn-primary">Logout</a>
+                <h4>All posted recipes:</h4>
+            </div>
+            <div>
+                <!--! Incomplete href routes* -->
+                <!-- links to create a new recipe and link to log out-->
+                <a href="/WRONG/{{i.id}}"
+                    class="me-2">+ Create</a>
+                <a href="/WRONG/{{i.id}}"
+                    class="ms-2">Logout</a>
             </div>
         </div>
+        <!--! Incomplete recipes post table -->
+        <!-- All posted recipes table-->
+        <table
+            class="table container table-dark table-hover table-striped rounded border border-1 border-light mt-5 text-capitalize table-bordered">
+            <thead>
+                <tr class="table table-row-1 text-light">
+                    <th>Name</th>
+                    <th>Under 30min</th>
+                    <th>Posted By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--! adjust to post options based on who's logged on per each row  // view all -->
+                {% for i in WRONG.WRONG %}
+                <tr>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.under_30_minutes }}</td>
+                    <td>{{ i.user.first_name }}</td>
+                    <!--! edit to include specific options depending on who's logged in -->
+                    <td>
+                        <p><a href="/WRONG/{{i.id}}">{{ i.WRONG }}view recipe</a> | <a href="/WRONG/{{i.id}}">{{ i.WRONG
+                                }}edit</a> | <a href="/WRONG/{{i.id}}">{{ i.WRONG }}Delete</a></p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div>
+        </div>
+        <div>
+            <a href="/logout"
+                class="btn btn-primary">Logout</a>
+        </div>
+    </div>
     </div>
 
     </div>

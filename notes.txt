@@ -1,0 +1,60 @@
+-------- Routes & Methods Needed -------- 
+
+
+===============================
+***** USER_CONTROLLER *****
+===============================
+
+-route to dashboard (home)
+
+-route to login
+
+-route to successful login w/ 
+
+-route to register new user
+
+-route to successful register
+
+-user creates a new recipe & relocates to all recipes after
+
+-user views a specific recipe
+
+-user edits a specific recipe
+
+-route for back to recipes a-tag, takes us from any view, edit, add page to success(all recipes page)
+
+===============================
+***** USER_MODEL *****
+===============================
+-
+
+-
+
+-
+
+
+
+===============================
+***** RECIPE_CONTROLLER *****
+===============================
+-user successfuly adds new recipe to db
+
+-user views a specific recipe
+
+-user's edit successfully added to db **ADD validation for fields - must be completed to submit update** with redirect to pre-filled edit page if not complete
+
+-specific user deletes a recipe
+
+-
+
+===============================
+***** RECIPE_MODEL *****
+===============================
+-
+
+-
+
+-
+
+-
+
