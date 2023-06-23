@@ -10,3 +10,10 @@ def successRecipes():
     return render_template('success.html', all_recipes = all_recipes)
 
 
+@app.route('/delete/<int:id>')
+def remove(id):
+    #command to delet?
+    Recipe.delete({'id':id})
+    # USER.delete(id)
+
+    return redirect('/dashboard')

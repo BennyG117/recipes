@@ -17,35 +17,66 @@ bcrypt = Bcrypt(app)
 #    Show Form Route, Submit Form Route
 # ====================================
 
+
+
 # Home Route
 @app.route('/')
 def input_home():
-    return render_template("dashboard.html")
+    return render_template("login.html")
+
+
+#route to login (HOME)
+
+
+#route to all Recipes (aka DASHBOARD)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Route to save registration information
 @app.route('/register_user', methods=['POST'])
 def successful_register():
-
+    #go back to home is not a registered user or info is wrong
     if not User.validate_user(request.form):
         return redirect('/')
     
     pw_hash = bcrypt.generate_password_hash(request.form['password'])
     #! may need to add at end of thread above: ".decode('utf-8')"
     
-
-    #!change the details below*
+    #adjust based on table (auto fields are id, create, updated - don't need to be added)
     newUser_data = {
         "first_name": request.form['first_name'],
         "last_name": request.form['last_name'],
         "email": request.form['email'],
         "password" : pw_hash
     }
-
+    #make the user
     user_id = User.save(newUser_data)
-
+    
+    #putting user into session
     session['user_id'] = user_id
 
-    return redirect(f'/success/{user_id}')
+    #successfully taken to dashboard to see all recipes
+    return redirect(f'/dashboard')
 
 
 #route for user to create a new recipe through the "+ CREATE" a-tag button
@@ -53,7 +84,7 @@ def successful_register():
 def add_recipe():
     print(request.form)
     Recipe.save(request.form)
-    return redirect(f'/success/{user_id}')
+    return redirect(f'/dashboard/{user_id}')
 
 
 # route to have any user view a specific recipe
@@ -72,7 +103,7 @@ def edit_recipe(id):
 # Log In Validations Route
 # ====================================
 
-# Route for login check for user login 
+# Route for login validation check for user login 
 @app.route('/login_user', methods=['POST'])
 def loginCheck():
 
@@ -93,19 +124,19 @@ def loginCheck():
     #if valid then progress...    
     session['user_id'] = user_in_db.id
     
-    return redirect(f'/success/{user_in_db.id}')
+    return redirect('/dashboard')
 
 
 # Route to successful login / Transfers user to success page
-@app.route('/success/<int:id>')
-def show_success(id):
+@app.route('/login')
+def show_login():
 
         if 'user_id' not in session:
             flash('Please login or Register', 'warning')
             return redirect('/')
-        newUser = User.get_oneById({'id': id})
+        newUser = User.get_oneById({'id': session['user_id']})
 
-        return render_template('success.html', newUser=newUser)
+        return render_template('dashboard.html', newUser=newUser)
 
 
 # ====================================

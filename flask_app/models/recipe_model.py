@@ -16,6 +16,31 @@ class Recipe:
         self.user_id = data['user_id']
 
 
+    #!!!!static method to validate edit / add new recipe - NOTICE CATEGORY FILER ON FLASH MESSAGES*
+    @staticmethod
+    def validate_user(new_user):
+        is_valid = True
+        if len(new_user['first_name']) < 2:
+            flash('User first name must be 2 charecters or more!', 'recipes')
+            is_valid = False
+        if len(new_user['last_name']) < 2:
+            flash('User first name must be 2 charecters or more!', 'register')
+            is_valid = False
+        if not EMAIL_REGEX.match(new_user['email']):
+            flash('Please enter a valid email!', 'register')
+            is_valid = False
+        if len(new_user['password']) < 8:
+            flash('Password must be 8 or more characters long!', 'register')
+            is_valid = False
+        if new_user['password'] != new_user['confirm_password']:
+            flash('Passwords did not match!', 'register')
+            is_valid = False
+        
+        return is_valid
+
+
+
+
 
     #Classmethod to save a submitted new Recipe by adding it to our DB
     @classmethod
@@ -78,3 +103,14 @@ class Recipe:
         singleRecipe = cls(results[0])
 
         return singleRecipe
+    
+        # action to delete specific recipe per id
+    @classmethod
+    def delete(cls, data):
+        query = """DELETE FROM recipes 
+        WHERE id = %(id)s"""
+        #temp dict to complete the query we have
+        # data={'id':id}
+
+        result = connectToMySQL(cls.DB).query_db(query, data)
+        return result

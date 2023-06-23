@@ -1,60 +1,143 @@
 -------- Routes & Methods Needed -------- 
 
+>>NOTES<<
+-1st table is the main point for one to many (using left join): recipes left join user
+
+-each form = a new route (register, login, edit, and add new)
+
+-each show page = a new route show:  (login page, list of recipes(aka dashboard), show add new, show 1 recipe, show edit form)
+
+-Classmethods - what happens when you get to the place you're going to = our database interactions(back end interactoions)
+
+-staticmethod - 
+
+-get Request (1 per page) - 5 get request for this assignment
+    login & registration
+    dashboard
+    add new
+    edit one
+    view one
+*****************************************************************************************************
+===============================
+***** A-Tag *****
+
+===============================
+-delete:
+    >classmethod - Recipe Controller 
+    >refer to html delete show per session id
+
+- back to recipes:
+    >a tag directly to dashboard (view all recipes) = ('/......')
+    >**GET Request - GET Request - dashboard
+    >back to recipes" a-tag, takes us from any view, edit, add page to dashboard
+
+- log out:
+    >Get/Post route that uses the redirect back to login (home page & clear session)
+
+- + create:
+    >a tag directly to ('/.....')
+    >**GET Request - new recipe form**
+
+
+*****************************************************************************************************
+*****************************************************************************************************
+*****************************************************************************************************
 
 ===============================
 ***** USER_CONTROLLER *****
+        App Routes
+        (USER Table)
 ===============================
+GET Request -route home 
+        >>>> ('/') // render template -> sign in/home page
 
--route to dashboard (home)
+POST-route to register new user 
+        >>>> ('/....', methods=['POST'] // redirect to home to log if wrong or to dashboard(logged in)) 
+        >>>> [[call - validate "register a new user" staticmethod]] 
 
--route to login
+POST-route to login >>>> ('/....', methods=['POST'] // redirect -> dashboard)
+        >>>> includes validate login
 
--route to successful login w/ 
 
--route to register new user
+GET Request - to dashboard (read access to all) (write access to your own recipes ONLY*) (usually your account page after you've logged in and not your home page*) 
+        >>>> ('/....') // render template -> dashboard
 
--route to successful register
-
--user creates a new recipe & relocates to all recipes after
-
--user views a specific recipe
-
--user edits a specific recipe
-
--route for back to recipes a-tag, takes us from any view, edit, add page to success(all recipes page)
+GET/POST-route to logout (UNIQUE - a-tag with clear session)
+        >>>>  ('/....') // redirect -> login (home page & clear)
 
 ===============================
 ***** USER_MODEL *****
+Classmethods & Staticmethod
+        (USER Table)
 ===============================
--
+-validate a new user - <<STATIC>> (unique)
+        >>>> checks with flash messages  (first_name, last_name, valid email type, email w/in db, valid pw, valid confirm pw)
+        >>>> VALIDATES NEW REGISTER
 
--
+-get one by email - <<CLASSMETHODS>>
+        >>>> pulls user based on query searching emails
 
--
+-get one by id - <<CLASSMETHODS>>
+        >>>> pulls user based on query searching id
 
+-save a new user - <<CLASSMETHODS>>
+        >>>> adds new user to the DB
+
+*****************************************************************************************************
+*****************************************************************************************************
+*****************************************************************************************************
 
 
 ===============================
 ***** RECIPE_CONTROLLER *****
+        App Route
+    (RECIPES) Table
 ===============================
--user successfuly adds new recipe to db
+>>>> ('/') // render template
+>>>> ('/....', methods=['POST'] // redirect to...)
 
--user views a specific recipe
+GET Request - new recipe form
+        >>>> ('/') // render template - new recipe form
 
--user's edit successfully added to db **ADD validation for fields - must be completed to submit update** with redirect to pre-filled edit page if not complete
+POST-user add new recipe 
+        >>>> ('/....', methods=['POST'] // redirect to updated dashboard)
+        
+GET Request - edit recipe form 
+        >>>> ('/') // render template
+        >>>> placeholders needed to pre populate existing fields
 
--specific user deletes a recipe
+POST- edits a specific recipe
+        >>>> ('/....', methods=['POST'] // redirect to updated dashboard)
 
--
+GET Request-user views a specific recipe "view recipe"
+        >>>> ('/') // render template
+        >>>> displays specific recipe info from the db
+
+GET/POST-route to logout (UNIQUE - a tag with delete)
+        >>>> ('/..../<int:id>') // redirect -> ('/dashboard')
 
 ===============================
 ***** RECIPE_MODEL *****
 ===============================
--
+-view all recipes <<CLASS>>
+        >>>>(show all recipe info with LEFT JOIN) 
 
--
+-save new recipe <<CLASS>>
+        >>>>saving and adding a new recipe to the DB
 
--
+-save edited recipe  <<CLASS>>
+        >>>>updating existing recipe in the DB
 
--
+-validate new & edit recipe (for edit and new same) <<STATIC>>
+        >>>>same for edit & add new - validate form to submit new details to DB
+        
+-view single recipe  <<CLASS>>
+        >>>> get_one_recipe from the DB (show selected recipe) - LEFT JOIN required
 
+-specific user deletes a recipe <<CLASSMETHOD>>
+        >>>>delete specific recipe by id from the DB
+
+
+*****************************************************************************************************
+*****************************************************************************************************
+*****************************************************************************************************

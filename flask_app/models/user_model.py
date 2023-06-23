@@ -25,32 +25,6 @@ class User:
 
 
 #! Staticmethods here #################################################
-    #staticmethod to validate email 
-    @staticmethod
-    def validate_email(new_email):
-        is_valid = True
-        # test whether email submitted is an actual email
-        if not EMAIL_REGEX.match(new_email['email']): 
-            flash ("Email is not valid!")
-            is_valid = False
-        # test to verify the email doesn't already exist in the db
-        query = """
-        SELECT * 
-        FROM users
-        WHERE email = %(email)s;
-        """    
-        #in static method can use "User.DB" or 'schema name in string'
-        results = connectToMySQL('recipes_db').query_db(query,new_email)
-        # use to check if working...
-        print(results)
-
-        if results:
-            flash("Email already exists!")
-            is_valid = False
-
-        return is_valid
-    
-
 
     #static method to validate entire user (specific to register form) // NOTICE CATEGORY FILER ON FLASH MESSAGES*
     @staticmethod
@@ -65,6 +39,17 @@ class User:
         if not EMAIL_REGEX.match(new_user['email']):
             flash('Please enter a valid email!', 'register')
             is_valid = False
+        else:
+            query = """
+            SELECT * 
+            FROM users
+            WHERE email = %(email)s;
+            """    
+            #if it's not in the DB it will be False
+            result = connectToMySQL(User.DB).query_db(query, new_user)
+            if len(result) >= 1:
+                flash("Email taken, try a different email!")
+                is_valid = False
         if len(new_user['password']) < 8:
             flash('Password must be 8 or more characters long!', 'register')
             is_valid = False
@@ -75,13 +60,36 @@ class User:
         return is_valid
 
 
+        #Validate login
+    @staticmethod
+    def validate_login(login_user):
+
 
 
 
 #! Classmethods here #################################################
+
+# #Login validation: NOT USING***
+#     @classmethod
+#     def validate_email(cls, new_email):
+#         is_valid = True
+#         # test whether email submitted is an actual email
+#         if not EMAIL_REGEX.match(new_email['email']): 
+#             flash ("Email is not valid!")
+#             is_valid = False
+#         #if email is in db
+#         if cls.get_oneByEmail(new_email['email']):
+#             flash("Email already exists!")
+#             is_valid = False
+#         #allows login
+#         return is_valid 
+
+
+
+
         #classmethod to save new user registration
     @classmethod
-    def save(cls,data):
+    def save_new_user(cls,data):
         query = """INSERT INTO users (first_name, last_name, email, password) 
         VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s);"""
 
