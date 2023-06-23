@@ -19,22 +19,23 @@
     view one
 *****************************************************************************************************
 ===============================
-***** A-Tag *****
+
+        ***** A-Tag *****
 
 ===============================
--delete:
+- "delete":
     >classmethod - Recipe Controller 
     >refer to html delete show per session id
 
-- back to recipes:
+- "back to recipes":
     >a tag directly to dashboard (view all recipes) = ('/......')
     >**GET Request - GET Request - dashboard
     >back to recipes" a-tag, takes us from any view, edit, add page to dashboard
 
-- log out:
+- "log out":
     >Get/Post route that uses the redirect back to login (home page & clear session)
 
-- + create:
+- "+ create":
     >a tag directly to ('/.....')
     >**GET Request - new recipe form**
 
@@ -48,40 +49,39 @@
         App Routes
         (USER Table)
 ===============================
-GET Request -route home 
+X -  GET Request -route home 
         >>>> ('/') // render template -> sign in/home page
 
-POST-route to register new user 
-        >>>> ('/....', methods=['POST'] // redirect to home to log if wrong or to dashboard(logged in)) 
-        >>>> [[call - validate "register a new user" staticmethod]] 
+X - POST-route to register new user 
+        X - >>>> ('/....', methods=['POST'] // redirect to home to log if wrong or to dashboard(logged in)) 
+        X - >>>> [[call - validate "register a new user" staticmethod]] 
 
-POST-route to login >>>> ('/....', methods=['POST'] // redirect -> dashboard)
-        >>>> includes validate login
+X - POST-route to login >>>> ('/....', methods=['POST'] // redirect -> dashboard)
+        X - >>>> includes validate login
 
-
-GET Request - to dashboard (read access to all) (write access to your own recipes ONLY*) (usually your account page after you've logged in and not your home page*) 
+X - GET Request - to dashboard (read access to all) (write access to your own recipes ONLY*) (usually your account page after you've logged in and not your home page*) 
         >>>> ('/....') // render template -> dashboard
 
-GET/POST-route to logout (UNIQUE - a-tag with clear session)
+ - GET/POST-route to logout (UNIQUE - a-tag with clear session)
         >>>>  ('/....') // redirect -> login (home page & clear)
 
 ===============================
-***** USER_MODEL *****
+    ***** USER_MODEL *****
 Classmethods & Staticmethod
         (USER Table)
 ===============================
--validate a new user - <<STATIC>> (unique)
-        >>>> checks with flash messages  (first_name, last_name, valid email type, email w/in db, valid pw, valid confirm pw)
-        >>>> VALIDATES NEW REGISTER
+X - validate a new user - <<STATIC>> (unique)
+        X - >>>> checks with flash messages  (first_name, last_name, valid email type, email w/in db, valid pw, valid confirm pw)
+        X - >>>> VALIDATES NEW REGISTER
 
--get one by email - <<CLASSMETHODS>>
-        >>>> pulls user based on query searching emails
+X -get one by email - <<CLASSMETHODS>>
+        X - >>>> pulls user based on query searching emails
 
--get one by id - <<CLASSMETHODS>>
-        >>>> pulls user based on query searching id
+X -get one by id - <<CLASSMETHODS>>
+        X - >>>> pulls user based on query searching id
 
--save a new user - <<CLASSMETHODS>>
-        >>>> adds new user to the DB
+X -save a new user - <<CLASSMETHODS>>
+        X - >>>> adds new user to the DB
 
 *****************************************************************************************************
 *****************************************************************************************************
@@ -117,7 +117,9 @@ GET/POST-route to logout (UNIQUE - a tag with delete)
         >>>> ('/..../<int:id>') // redirect -> ('/dashboard')
 
 ===============================
-***** RECIPE_MODEL *****
+    ***** RECIPE_MODEL *****
+Classmethods & Staticmethod
+        (RECIPES Table)
 ===============================
 -view all recipes <<CLASS>>
         >>>>(show all recipe info with LEFT JOIN) 
@@ -141,3 +143,30 @@ GET/POST-route to logout (UNIQUE - a tag with delete)
 *****************************************************************************************************
 *****************************************************************************************************
 *****************************************************************************************************
+
+
+
+===============================
+    
+    ***** Common Errors *****
+
+===============================
+- When we get URL not found 
+    >Check url on the app routes
+
+- i is undefined
+    >Check html jinja {{names}}
+
+-
+
+-
+
+-
+
+-
+
+-
+
+-
+
+

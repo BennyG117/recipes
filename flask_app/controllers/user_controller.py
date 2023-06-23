@@ -12,55 +12,24 @@ bcrypt = Bcrypt(app)
 # from flask_app.models.table_model import classname
 
 
-# ====================================
-#    Create Routes
-#    Show Form Route, Submit Form Route
-# ====================================
 
 
 
-# Home Route
+############################ Home Route
 @app.route('/')
-def input_home():
+def login_home():
     return render_template("login.html")
 
 
-#route to login (HOME)
-
-
-#route to all Recipes (aka DASHBOARD)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Route to save registration information
-@app.route('/register_user', methods=['POST'])
-def successful_register():
+############################ <<POST>> Route to register new user
+@app.route('/register_new_user', methods=['POST'])
+def register_new_user():
     #go back to home is not a registered user or info is wrong
-    if not User.validate_user(request.form):
+    if not User.validate_new_user(request.form):
         return redirect('/')
     
+    # may need to add at end of thread above: ".decode('utf-8')"
     pw_hash = bcrypt.generate_password_hash(request.form['password'])
-    #! may need to add at end of thread above: ".decode('utf-8')"
     
     #adjust based on table (auto fields are id, create, updated - don't need to be added)
     newUser_data = {
@@ -70,7 +39,7 @@ def successful_register():
         "password" : pw_hash
     }
     #make the user
-    user_id = User.save(newUser_data)
+    user_id = User.save_new_user(newUser_data)
     
     #putting user into session
     session['user_id'] = user_id
@@ -79,33 +48,11 @@ def successful_register():
     return redirect(f'/dashboard')
 
 
-#route for user to create a new recipe through the "+ CREATE" a-tag button
-@app.route('/createNew', methods=['POST'])
-def add_recipe():
-    print(request.form)
-    Recipe.save(request.form)
-    return redirect(f'/dashboard/{user_id}')
 
 
-# route to have any user view a specific recipe
-@app.route('/viewOne/<int:id>')
-def show_recipe(id):
-    return render_template('viewRecipe.html', recipe = Recipe.get_one_recipe({"id":id}))
-
-
-#route to have a specific user edit a specific recipe
-@app.route('/editOne/<int:id>')
-def edit_recipe(id):
-    return render_template('editRecipe.html', recipe = Recipe.)
-
-
-# ====================================
-# Log In Validations Route
-# ====================================
-
-# Route for login validation check for user login 
+############################ <<POST>> Route for login validation check for user login 
 @app.route('/login_user', methods=['POST'])
-def loginCheck():
+def validate_login():
 
     #check if email exists in db
     login_data = {'email':request.form['email']}
@@ -127,28 +74,81 @@ def loginCheck():
     return redirect('/dashboard')
 
 
-# Route to successful login / Transfers user to success page
-@app.route('/login')
-def show_login():
+
+
+
+############################ <<GET>> Route to successful login / Transfers user to dashboard page
+@app.route('/dashboard')
+def show_dashboard():
 
         if 'user_id' not in session:
             flash('Please login or Register', 'warning')
             return redirect('/')
+        
+        # newUser == name to refer to on jinja on html
         newUser = User.get_oneById({'id': session['user_id']})
 
         return render_template('dashboard.html', newUser=newUser)
 
 
+############################ 
+
+
+
+
+
+
+
+
+
+
+
+#! ==========================================================================
+# ==========================================================================
+
 # ====================================
-# Log Out & Clear Route
+#    Create Routes
+#    Show Form Route, Submit Form Route
 # ====================================
 
-# Route to log out
-@app.route('/logout')
-def logout():
-    session.clear()
-    # may require session.pop('first_name / or other key:id') #
-    return redirect('/')
+# #route for user to create a new recipe through the "+ CREATE" a-tag button
+# @app.route('/createNew', methods=['POST'])
+# def add_recipe():
+#     print(request.form)
+#     Recipe.save(request.form)
+#     return redirect(f'/dashboard/{user_id}')
+
+
+# # route to have any user view a specific recipe
+# @app.route('/viewOne/<int:id>')
+# def show_recipe(id):
+#     return render_template('viewRecipe.html', recipe = Recipe.get_one_recipe({"id":id}))
+
+
+# #route to have a specific user edit a specific recipe
+# @app.route('/editOne/<int:id>')
+# def edit_recipe(id):
+#     return render_template('editRecipe.html', recipe = Recipe.)
+
+
+# # ====================================
+# # Log In Validations Route
+# # ====================================
+
+
+
+
+
+# # ====================================
+# # Log Out & Clear Route
+# # ====================================
+
+# # Route to log out
+# @app.route('/logout')
+# def logout():
+#     session.clear()
+#     # may require session.pop('first_name / or other key:id') #
+#     return redirect('/')
 
 # ====================================
 #    Read Routes

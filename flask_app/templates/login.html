@@ -27,7 +27,7 @@
     <div class="bg-dark text-light d-flex flex-row justify-content-start container-xxl">
         <div class="d-flex flex-row ">
             <div class="me-5">
-                <form action="/register_user"
+                <form action="/register_new_user"
                     method="POST"
                     class="d-flex flex-column border border-white">
                     <div>
@@ -35,12 +35,16 @@
                         <h2>Register</h2>
                         <div class="d-flex flex-column">
                             {#--flash messages #}
-                            {% with messages = get_flashed_messages(category_filter = ['register']) %} {# declare a variable called messages #}
-                            {% if messages %} {# check if there are any messages #}
+                            {% with messages = get_flashed_messages(category_filter = ['register']) %} 
+                            {# declare a variable called messages #}
+                            {% if messages %} 
+                            {# check if there are any messages #}
                             {#} flash messages within div to add warning colors etc. #}
                             <div class="d-flex p-2 flex-column justify-content-center border bg-danger text-dark">
-                                {% for message in messages %} {# loop through the messages #}
-                                <p>{{message}}</p> {# display each message in a paragraph tag #}
+                                {% for message in messages %} 
+                                {# loop through the messages #}
+                                <p>{{message}}</p> 
+                                {# display each message in a paragraph tag #}
                                 {% endfor %}
                             </div>
                             {% endif %}
@@ -90,12 +94,16 @@
                         <!-- right column - user log in form-->
                         <h2>Login</h2>
                         <!--flash messages -->
-                        {% with messages = get_flashed_messages(category_filter = ['login']) %} <!-- declare a variable called messages -->
-                        {% if messages %} <!-- check if there are any messages -->
+                        {% with messages = get_flashed_messages(category_filter = ['login']) %} 
+                        <!-- declare a variable called messages -->
+                        {% if messages %} 
+                        <!-- check if there are any messages -->
                         <!-- added div wrap below for colors etc to flash messages-->
                         <div class="d-flex p-2 flex-row justify-content-center border bg-danger text-dark">
-                            {% for message in messages %} <!-- loop through the messages -->
-                            <p>{{message}}</p> <!-- display each message in a paragraph tag -->
+                            {% for message in messages %} 
+                            <!-- loop through the messages -->
+                            <p>{{message}}</p> 
+                            <!-- display each message in a paragraph tag -->
                             {% endfor %}
                         </div>
                         {% endif %}
@@ -125,12 +133,16 @@
 
                         <div class="container d-flex justify-content-start mt-5">
                             {#--flash messages #}
-                            {% with messages = get_flashed_messages(category_filter = ['warning']) %} {# declare a variable called messages #}
-                            {% if messages %} {# check if there are any messages #}
+                            {% with messages = get_flashed_messages(category_filter = ['warning']) %} 
+                            {# declare a variable called messages #}
+                            {% if messages %} 
+                            {# check if there are any messages #}
                             {#} flash messages within div to add warning colors etc. #}
                             <div class="d-flex p-2 flex-row justify-content-center border bg-danger text-dark">
-                                {% for message in messages %} {# loop through the messages #}
-                                <p>{{message}}</p> {# display each message in a paragraph tag #}
+                                {% for message in messages %} 
+                                {# loop through the messages #}
+                                <p>{{message}}</p> 
+                                {# display each message in a paragraph tag #}
                                 {% endfor %}
                             </div>
                             {% endif %}

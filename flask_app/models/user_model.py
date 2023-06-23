@@ -24,11 +24,10 @@ class User:
         self.updated_at = data['updated_at']
 
 
-#! Staticmethods here #################################################
 
-    #static method to validate entire user (specific to register form) // NOTICE CATEGORY FILER ON FLASH MESSAGES*
+###################### <<static method>> to validate entire user (specific to register form) // NOTICE CATEGORY FILER ON FLASH MESSAGES*
     @staticmethod
-    def validate_user(new_user):
+    def validate_new_user(new_user):
         is_valid = True
         if len(new_user['first_name']) < 2:
             flash('User first name must be 2 charecters or more!', 'register')
@@ -59,35 +58,7 @@ class User:
         
         return is_valid
 
-
-        #Validate login
-    @staticmethod
-    def validate_login(login_user):
-
-
-
-
-#! Classmethods here #################################################
-
-# #Login validation: NOT USING***
-#     @classmethod
-#     def validate_email(cls, new_email):
-#         is_valid = True
-#         # test whether email submitted is an actual email
-#         if not EMAIL_REGEX.match(new_email['email']): 
-#             flash ("Email is not valid!")
-#             is_valid = False
-#         #if email is in db
-#         if cls.get_oneByEmail(new_email['email']):
-#             flash("Email already exists!")
-#             is_valid = False
-#         #allows login
-#         return is_valid 
-
-
-
-
-        #classmethod to save new user registration
+###################### <<classmethod>> to save new user registration
     @classmethod
     def save_new_user(cls,data):
         query = """INSERT INTO users (first_name, last_name, email, password) 
@@ -96,20 +67,8 @@ class User:
         result = connectToMySQL(cls.DB).query_db(query, data)
         return result
 
-    #classmethod to get one user (via id)
-    @classmethod
-    def get_oneById(cls,data):
-        query = """
-        SELECT * 
-        FROM users
-        WHERE id = %(id)s;
-        """    
 
-        result = connectToMySQL(cls.DB).query_db(query, data)
-        return cls(result[0])
-
-
-    #classmethod to get one user (via email)
+###################### <<classmethod>> to get one user (via email)
     @classmethod
     def get_oneByEmail(cls,data):
         query = """
@@ -122,6 +81,71 @@ class User:
         if len(result) < 1:
             return False
         return cls(result[0])
+
+
+
+###################### <<classmethod>> to get one user (via id)
+    @classmethod
+    def get_oneById(cls,data):
+        query = """
+        SELECT * 
+        FROM users
+        WHERE id = %(id)s;
+        """    
+
+        result = connectToMySQL(cls.DB).query_db(query, data)
+        return cls(result[0])
+
+
+
+
+
+###################### 
+
+
+###################### 
+
+
+###################### 
+
+
+
+
+
+
+
+
+#! ==========================================================================
+# ==========================================================================
+# ###################### Validate login
+#     @staticmethod
+#     def validate_login(login_user):
+
+
+
+
+
+# # #Login validation: NOT USING***
+# #     @classmethod
+# #     def validate_email(cls, new_email):
+# #         is_valid = True
+# #         # test whether email submitted is an actual email
+# #         if not EMAIL_REGEX.match(new_email['email']): 
+# #             flash ("Email is not valid!")
+# #             is_valid = False
+# #         #if email is in db
+# #         if cls.get_oneByEmail(new_email['email']):
+# #             flash("Email already exists!")
+# #             is_valid = False
+# #         #allows login
+# #         return is_valid 
+
+
+
+
+
+
+
 
 
 
